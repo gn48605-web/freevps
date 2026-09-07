@@ -7,11 +7,16 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Download & Setup RustDesk
+      - name: Download & Get RustDesk Credentials
         run: |
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
           Invoke-WebRequest -Uri "https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.exe" -OutFile "rustdesk.exe"
-          Start-Process -FilePath ".\rustdesk.exe" -ArgumentList "--install" -Wait
+          Start-Process -FilePath ".\rustdesk.exe" -ArgumentList "--get-id" -NoNewWindow -Wait
+          Start-Process -FilePath ".\rustdesk.exe" -ArgumentList "--password test1234" -NoNewWindow -Wait
+          Start-Process -FilePath ".\rustdesk.exe" -NoNewWindow
+          Write-Output "----------------------------------"
+          Write-Output "RustDesk Password is set to: test1234"
+          Write-Output "----------------------------------"
       - name: Keep Alive
         run: |
           $i = 0
