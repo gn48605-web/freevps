@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Download & Get RustDesk Credentials
+      
         run: |
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
           Invoke-WebRequest -Uri "https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.exe" -OutFile "rustdesk.exe"
