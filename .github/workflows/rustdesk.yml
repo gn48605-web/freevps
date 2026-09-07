@@ -7,10 +7,15 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Downloading & Installing Essentials
+      - name: Download & Setup RustDesk
         run: |
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
-          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name "UserAuthentication" -Value 1
-      - name: Time Counter
-        run: python time.py
+          Invoke-WebRequest -Uri "https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.exe" -OutFile "rustdesk.exe"
+          Start-Process -FilePath ".\rustdesk.exe" -ArgumentList "--install" -Wait
+      - name: Keep Alive
+        run: |
+          $i = 0
+          while ($i -lt 360) {
+            Start-Sleep -Seconds 60
+            $i++
+          }
