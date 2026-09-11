@@ -1,5 +1,5 @@
 - name: Setup AnyDesk
-        run: |
+        run: 
           Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk.exe" -OutFile "AnyDesk.exe"
           cmd /c "AnyDesk.exe --install C:\AnyDesk --start-with-win --silent"
           Start-Sleep -Seconds 5
